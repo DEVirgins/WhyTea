@@ -15,7 +15,7 @@ fun Application.configureRouting() {
 
     routing {
         static("/") {
-            files("css")
+            resources("../static")
             default("index.html")
         }
     }

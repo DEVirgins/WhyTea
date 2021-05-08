@@ -21,7 +21,7 @@ val loginProviders = listOf(
         authorizeUrl = "https://oauth.vk.com/authorize",
         accessTokenUrl = "https://oauth.vk.com/access_token",
         clientId = "7842898",
-        clientSecret = System.getProperty("VK_SECRET"),
+        clientSecret = System.getenv("VK_SECRET"),
         defaultScopes = listOf("email"),
         authorizeUrlInterceptor = { print(this) }
     ),
@@ -30,7 +30,7 @@ val loginProviders = listOf(
         authorizeUrl = "https://accounts.google.com/o/oauth2/v2/auth",
         accessTokenUrl = "https://oauth2.googleapis.com/token",
         clientId = "",
-        clientSecret = System.getProperty("GOOGLE_SECRET"),
+        clientSecret = System.getenv("GOOGLE_SECRET"),
         defaultScopes = listOf(""),
         authorizeUrlInterceptor = { print(this) }
     )
