@@ -19,6 +19,7 @@ class User(id: EntityID<Int>) : IntEntity(id){
     companion object : IntEntityClass<User>(Users)
     var name by Users.name
     var email by Users.email
+    var vkId by Users.vkUserId
     val skills by Skill referrersOn Skills.owner
 }
 

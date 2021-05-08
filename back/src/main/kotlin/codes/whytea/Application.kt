@@ -1,6 +1,7 @@
 package codes.whytea
 
 import codes.whytea.auth.configureSecurity
+import codes.whytea.auth.configureSecurityRoutes
 import codes.whytea.model.Skills
 import codes.whytea.model.Users
 import codes.whytea.persistence.connectToDatabase
@@ -27,6 +28,7 @@ fun Application.main() {
         }
         configureRouting()
         configureSecurity()
+        configureSecurityRoutes()
         configureSerialization()
     }
 

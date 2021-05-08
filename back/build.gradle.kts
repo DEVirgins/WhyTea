@@ -3,6 +3,7 @@ val kotlin_version: String by project
 val logback_version: String by project
 val exposed_version: String by project
 
+
 plugins {
     application
     kotlin("jvm") version "1.5.0"
@@ -11,8 +12,10 @@ plugins {
 
 group = "codes.whytea"
 version = "0.0.1"
+
+
 application {
-    mainClass.set("codes.whytea.ApplicationKt")
+    mainClassName = "codes.whytea.ApplicationKt"
 }
 
 repositories {

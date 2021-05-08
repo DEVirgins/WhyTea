@@ -2,6 +2,7 @@ package codes.whytea.persistence
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
+import org.jetbrains.exposed.sql.Transaction
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 fun connectToDatabase() = HikariDataSource(HikariConfig().apply{
@@ -13,4 +14,4 @@ fun connectToDatabase() = HikariDataSource(HikariConfig().apply{
     validate()
 })
 
-suspend fun <T> query(block: suspend() -> T) = newSuspendedTransaction { block() }
+suspend fun <T> query(block: suspend Transaction.() -> T) = newSuspendedTransaction { block() }
