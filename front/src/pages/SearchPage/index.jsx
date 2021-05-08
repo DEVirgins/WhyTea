@@ -1,9 +1,13 @@
 import React from 'react';
+import CustomHeader from '../../components/header';
+import './style.css'
 
-const OfferPage = () => (
+const SearchPage = () => (
     <div className='offer__wrapper'>
-
+        <div className='header'>
+            <CustomHeader title={'Заявки'} />
+        </div>
     </div>
 );
 
-export default OfferPage;
+export default SearchPage;
