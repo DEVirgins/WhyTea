@@ -1,8 +1,7 @@
 import './App.css';
-import { DatePicker, message } from 'antd';
 import 'antd/dist/antd.css';
 import './index.css';
-import { useState } from 'react';
+import AuthPage from './pages/authPage';
 
 function App() {
     // const [date, setDate] = useState(null);
@@ -21,7 +20,9 @@ function App() {
     // }
 
     return (
-        <div>hey</div>
+        <div className="main__container">
+            <AuthPage />
+        </div>
         // <div style={{ width: '100%', height: '100vh',  margin: '100px auto' }}>
         //     <button className='google__button' onClick={openGoogleAuth}>
         //         <img className='google__button__image' />
