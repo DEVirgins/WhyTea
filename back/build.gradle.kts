@@ -5,9 +5,9 @@ val exposed_version: String by project
 
 
 plugins {
-    kotlin("jvm")
-    id("org.jetbrains.kotlin.plugin.serialization")
     application
+    kotlin("jvm") version "1.5.0"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.5.0"
 }
 
 group = "codes.whytea"
