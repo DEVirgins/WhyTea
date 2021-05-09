@@ -6,7 +6,6 @@ import codes.whytea.model.Skills
 import codes.whytea.model.Users
 import codes.whytea.persistence.connectToDatabase
 import codes.whytea.persistence.query
-import codes.whytea.plugins.configureRouting
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.locations.*
@@ -21,12 +20,12 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 fun Application.main() {
     val db = connectToDatabase()
     Database.connect(db)
-
+    install(Locations)
     runBlocking {
         query {
             SchemaUtils.create(Users, Skills)
         }
-        configureRouting()
+//        configureRouting()
         configureSecurity()
         configureSecurityRoutes()
         configureSerialization()

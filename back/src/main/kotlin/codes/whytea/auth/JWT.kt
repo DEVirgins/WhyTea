@@ -1,5 +1,6 @@
 package codes.whytea.auth
 
+import codes.whytea.integrations.getUserInfo
 import codes.whytea.model.User
 import codes.whytea.model.Users
 import codes.whytea.persistence.query
@@ -10,7 +11,9 @@ import com.auth0.jwt.algorithms.Algorithm
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.auth.jwt.*
+import io.ktor.client.call.*
 import io.ktor.util.*
+import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.security.MessageDigest
 import java.util.*
@@ -55,17 +58,22 @@ data class JWTSettings(val issuer: String, val audience: String, val algorithm: 
 
 suspend fun ApplicationCall.issueJWTByVKId(): String = query {
     val oauthData = principal<OAuthAccessTokenResponse.OAuth2>()!!
+    val vkontakteId = oauthData.extraParameters["user_id"]!!.toInt()
+
     transaction {
         val user =
             User.find {
-                Users.vkUserId eq oauthData.extraParameters["user_id"]!!.toInt()
+                Users.vkUserId eq vkontakteId
             }.firstOrNull()
                 ?:
-            User.new{
-                name = oauthData.extraParameters["name"]!!
-                email = oauthData.extraParameters["email"]!!
-                vkId = oauthData.extraParameters["user_id"]!!.toInt()
-            }
+                runBlocking{
+                    val firstName = getUserInfo(vkontakteId, oauthData.accessToken).firstName
+                    User.new{
+                        name = firstName
+                        email = oauthData.extraParameters["email"]!!
+                        vkId = vkontakteId
+                    }
+                }
         issueJWT(user)
     }
 }
@@ -87,7 +95,7 @@ suspend fun ApplicationCall.issueJWTByEmail(): String = query {
 }
 
 fun ApplicationCall.issueJWT(user: User): String {
-    val jwtSettings = attributes[JWT_SETTINGS]
+    val jwtSettings = this.application.attributes.get(JWT_SETTINGS)
     return JWT.create()
               .withJWTId(
                   MessageDigest.getInstance("SHA-256")

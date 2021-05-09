@@ -4,6 +4,7 @@ import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.client.*
 import io.ktor.client.engine.apache.*
+import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.util.*
 
@@ -21,7 +22,7 @@ val loginProviders = listOf(
         name = "google",
         authorizeUrl = "https://accounts.google.com/o/oauth2/v2/auth",
         accessTokenUrl = "https://oauth2.googleapis.com/token",
-        clientId = "",
+        clientId = "614743996912-ectf4r4sj222m10lrmn3lo2pd3c4sjm3.apps.googleusercontent.com",
         clientSecret = System.getenv("GOOGLE_SECRET"),
         defaultScopes = listOf(""),
         authorizeUrlInterceptor = { print(this) }
@@ -29,6 +30,7 @@ val loginProviders = listOf(
 ).associateBy { it.name }
 
 internal fun Application.configureOauth() {
+
     authentication {
         oauth("vk") {
             client = HttpClient(Apache)
@@ -42,7 +44,11 @@ internal fun Application.configureOauth() {
                     )
                 )
             }
-            urlProvider = { "/login/vk" }
+            urlProvider = {
+                URLBuilder.Companion.createFromCall(this).apply {
+                    parameters.clear()
+                }.buildString()
+            }
         }
 
         oauth("google") {
