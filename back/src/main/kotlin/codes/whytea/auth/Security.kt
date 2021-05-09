@@ -13,6 +13,7 @@ import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.util.*
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -26,36 +27,31 @@ fun Application.configureSecurity() {
     configureSecurityRoutes()
 }
 
+@Serializable data class AccessTokenDTO(@SerialName("access_token") val accessToken: String)
+
 @KtorExperimentalLocationsAPI
 internal fun Application.configureSecurityRoutes() {
     val jwtSettings = this.attributes.get(JWT_SETTINGS)
 
     routing {
-        route("/login") {
-            param("error") {
-                handle {
-                    call.response.status(HttpStatusCode.Unauthorized)
-                    call.respond("")
-                }
-            }
-
-            authenticate("vk") {
-                get("/vk") {
-                    call.issueJWTByVKId()
-                }
-            }
-
-            authenticate("google") {
-                get("/google") {
-                    call.issueJWTByEmail()
+        authenticate("vk") {
+            get("/login/vk") {
+                with(call){
+                    respond(AccessTokenDTO)
+                    respond(AccessTokenDTO(issueJWTByVKId()))
                 }
             }
         }
+        authenticate("google") {
+            get("/login/google") {
+                call.issueJWTByEmail()
+            }
+        }
 
-        get("/locked") {
-            val principal = call.authentication.principal<Principal>()
-            call.respondText {
-                "Oh hi $principal!"
+        param("error") {
+            handle {
+                call.response.status(HttpStatusCode.Unauthorized)
+                call.respond("")
             }
         }
     }

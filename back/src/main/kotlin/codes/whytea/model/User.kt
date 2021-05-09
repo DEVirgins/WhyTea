@@ -8,17 +8,19 @@ import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.min
 
 object Users : IntIdTable(){
-    val name = varchar("name", length = 50)
-    val email = varchar("email", length = 50).uniqueIndex()
-    val vkUserId = integer("Vk_User_ID").uniqueIndex()
-
+    val name        = varchar("name", length = 50)
+    val email       = varchar("email", length = 50).uniqueIndex()
+    val vkUserId    = integer("Vk_User_ID")        .uniqueIndex()
+    val description = text("description")
     override val primaryKey = PrimaryKey(id, name = "PK_User_ID")
 }
 
 class User(id: EntityID<Int>) : IntEntity(id){
     companion object : IntEntityClass<User>(Users)
-    var name by Users.name
-    var email by Users.email
+    var name        by Users.name
+    var email       by Users.email
+    var description by Users.description
+
     var vkId by Users.vkUserId
     val skills by Skill referrersOn Skills.owner
 }
