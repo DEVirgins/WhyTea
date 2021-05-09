@@ -2,15 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="google-signin-client_id" content="159329.apps.googleusercontent.com">
-    <script src="https://apis.google.com/js/platform.js" async defer>
-        function onSignIn(googleUser) {
-            var profile = googleUser.getBasicProfile();
-            console.log('ID: ' + profile.getId());
-            console.log('Name: ' + profile.getName());
-            console.log('Image URL: ' + profile.getImageUrl());
-            console.log('Email: ' + profile.getEmail());
+    <script>
+        var params = location.href.search;
+        if(!(params instanceof URLSearchParams))
+            params = new URLSearchParams(params)
+        let code = params.get("code")
+
+        let xhr = new XMLHttpRequest();
+
+        xhr.open('GET', `/api/login/vk?code=${code}`)
+
+        xhr.send();
+
+        if (xhr.status !== 200) {
+            console.log( xhr.status + ': ' + xhr.statusText );
+        } else {
+            console.log(xhr.response);
+
+            window.localStorage.setItem('access_token: ', xhr.response)
         }
+
+        window.close();
+
+        //
+        // "GET /api/login/vk?code=" "GET /api/login/google"
+        // "{'access_token': qwjifjasdsindign}" -> localstorage
+
     </script>
 </head>
 <body>

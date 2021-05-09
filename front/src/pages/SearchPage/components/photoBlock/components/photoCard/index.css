@@ -1,0 +1,11 @@
+.photo-card__wrapper {
+    position: relative;
+}
+
+.photo-card-span-wrapper {
+    position: absolute;
+    width: 34px;
+    height: 21px;
+    color: #FFFFFF;
+    font-size: 16px;
+}

@@ -22,3 +22,8 @@
     border-right: 2px solid gray;
     width: 125px;
 }
+
+.header-title {
+    color: #228E9C;
+    font-size: 23px;
+}

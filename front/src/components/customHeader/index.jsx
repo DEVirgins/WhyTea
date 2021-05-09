@@ -5,7 +5,7 @@ import './index.css';
 const CustomHeader = ({title}) => (
     <div className='header-wrapper'>
         <div className='header-wrapper__title-span-container'>
-            <span>
+            <span className='header-title'>
                 {title}
             </span>
         </div>

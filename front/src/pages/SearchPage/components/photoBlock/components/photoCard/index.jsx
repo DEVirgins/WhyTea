@@ -1,14 +1,16 @@
-import React from 'react'
+import React from 'react';
+import './index.css';
 
-
-const PhotoCard = () => (
-    <div className='auth__wrapper'>
+const PhotoCard = ({ name, teamRole, photoLink }) => (
+    <div className='photo-card__wrapper'>
         <div>
-            <img />
+            <img src={photoLink}/>
         </div>
-        <div>
-            <span />
-            <span />
+        <div className='photo-card-span-wrapper'>
+                {name}
+        </div>
+        <div className='photo-card-span-wrapper'>
+            {teamRole}
         </div>
     </div>
 );

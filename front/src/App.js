@@ -4,13 +4,19 @@ import './index.css';
 import AuthPage from './pages/authPage';
 import DrawerMenu from "./components/drawer";
 import SearchPage from './pages/SearchPage';
-function App() {
+import Routers from "./roots/router";
 
+const isSignIn = false;
+
+function App() {
     return (
         <div className="main__container">
+            {
+                isSignIn ?
+                    <Routers />
+                    : <AuthPage />
+            }
             {/*<DrawerMenu />*/}
-            {/*<AuthPage />*/}
-            <SearchPage />
         </div>
     );
 }
